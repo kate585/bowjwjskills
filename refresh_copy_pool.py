@@ -5,11 +5,12 @@ from pathlib import Path
 from datetime import datetime, timezone, timedelta
 from collections import defaultdict
 
-JWT_FILE = Path.home() / ".hermes" / "state" / "bowjwj" / ".jwt"
+SCRIPT_DIR = Path(__file__).parent
+JWT_FILE = SCRIPT_DIR / ".jwt"
 BASE = "https://bowjwj.cc"
 BID = "c7ee7c4c-ce0a-49c9-880a-9315d07c07b6"
 AI_INSTANCE_ID = "cmn0neb160001lnd0xdlc4ty1"
-CONFIG_DIR = Path.home() / ".hermes" / "state" / "bowjwj"
+CONFIG_DIR = SCRIPT_DIR
 JWT = JWT_FILE.read_text().strip()
 
 def log(msg):

@@ -1,0 +1,531 @@
+{
+  "version": "2026-04-27-v2",
+  "site": "NN33",
+  "backendInstanceId": "c7ee7c4c-ce0a-49c9-880a-9315d07c07b6",
+  "apiBase": "https://bowjwj.cc",
+  "jwtFile": "~/.hermes/state/bowjwj/.jwt",
+  "terminals": {
+    "_locked": true,
+    "_note": "2026-05-05 Willy优化: kt14 Globe=63-67 Smart=75-79, 双载波独立页区, 解决0包问题",
+    "kt14": {
+      "packsPerRound": 9,
+      "cycleSeconds": 3,
+      "label": "kt14",
+      "_note": ""
+    }
+  },
+  "blockedChannels": [],
+  "_blockedChannelsNote": "2026-05-03 Willy指令: GG全网通4条+十yoVKEmpireWin恢复使用, 十五Globe+三yoSmart仍在禁用",
+  "carriers": {
+    "globe": {
+      "packPage": 63,
+      "packPageSize": 100,
+      "packNameKeywords": [
+        "globe",
+        "dito"
+      ],
+      "channelKeywords": [
+        "AI：Globe",
+        "AI：globe&dito",
+        "Globe&Dito"
+      ],
+      "preferredChannelId": null,
+      "preferredChannelName": "十五 yo家 Globe&Dito BLOCKED per Willy 2026-05-02 05:30BJ",
+      "_preferredChannelBlocked": "十五 Globe&Dito BLOCKED 2026-05-02 Willy指令, 原50%CTR但近期垃圾信箱风控",
+      "copyPoolEnabled": true,
+      "copyPoolTemplateIds": [
+        "1adf7dce-be95-466c-96b6-751dce03ee2b",
+        "2b19eb3c-847b-4b81-bd16-dbebc3bc9eb0",
+        "bb91a6b2-70b5-4781-a3ac-15ba84edc010",
+        "99b6a175-da19-42f1-a328-e8181b96af85",
+        "b07b831a-2cb6-418a-8fe3-374631659b30",
+        "005b6583-5a69-48a7-86fd-e1a9ebfa0e1f",
+        "f5c51da4-da9c-4608-bb2d-ab85b5b7eece",
+        "4d8b12a6-766a-46d2-9860-ae99a80c126c",
+        "77e858a5-ce00-44fa-ae0a-6840f1c63104",
+        "b54daed4-b002-4df9-aba3-aa86c6230629",
+        "8f08e801-bcb8-49be-8d92-5b866ae6eb93",
+        "7c763eba-4a58-45ec-aeb9-0cc1789c5876"
+      ],
+      "_copyPoolNote": "铁律: 全部文案必须带金额诱导, 12条PHP金额文案池",
+      "excludeKeywords": [],
+      "_g5_deprecated": "59fb2224-941f-4e95-9d5e-dd62c98ec94b CTR_ZERO_DEPRECATED 2026-05-01 fast_send Round1",
+      "_channel_ctr_data": {
+        "十五 dc70d6e8": "50.0% (历史最佳, 73次)",
+        "五 04596485": "20.0% (27/135)",
+        "四 a1e0747e": "12.5% (16/128)",
+        "十二 8b029e9a": "8.0% (历史最佳, 29次)",
+        "十四 f61e1f3f": "7.0% (历史最佳, 36次)",
+        "十一 e062ada6": "3.4% (4/116)",
+        "十三 f49e287b": "1.7% (2/118) LOW",
+        "一 699847d5": "0.0% DEPRECATED"
+      },
+      "packPageMax": 67,
+      "_copyPoolIndex": 0
+    },
+    "smart": {
+      "packPage": 75,
+      "packPageSize": 100,
+      "packNameKeywords": [
+        "smart",
+        "tnt"
+      ],
+      "channelKeywords": [
+        "AI：Smart",
+        "AI：smart&TNT",
+        "smart&TNT"
+      ],
+      "preferredChannelId": "165b9ca3-3220-4383-bcc2-901941ffcfd3",
+      "preferredChannelName": "九yo家 smart&TNT LuckyPlay S 25%CTR",
+      "copyPoolEnabled": true,
+      "copyPoolTemplateIds": [
+        "1adf7dce-be95-466c-96b6-751dce03ee2b",
+        "2b19eb3c-847b-4b81-bd16-dbebc3bc9eb0",
+        "bb91a6b2-70b5-4781-a3ac-15ba84edc010",
+        "99b6a175-da19-42f1-a328-e8181b96af85",
+        "b07b831a-2cb6-418a-8fe3-374631659b30",
+        "005b6583-5a69-48a7-86fd-e1a9ebfa0e1f",
+        "f5c51da4-da9c-4608-bb2d-ab85b5b7eece",
+        "4d8b12a6-766a-46d2-9860-ae99a80c126c",
+        "77e858a5-ce00-44fa-ae0a-6840f1c63104",
+        "b54daed4-b002-4df9-aba3-aa86c6230629",
+        "8f08e801-bcb8-49be-8d92-5b866ae6eb93",
+        "7c763eba-4a58-45ec-aeb9-0cc1789c5876"
+      ],
+      "_copyPoolNote": "铁律: 全部文案必须带金额诱导, 12条PHP金额文案池",
+      "excludeKeywords": [
+        "4.30号入款"
+      ],
+      "_excludeNote": "4.30号入款包全部被凯总巴西项目占满, 排除后用ai自动发送任务包/银河城市包",
+      "_channel_ctr_data": {
+        "九yo 165b9ca3": "25.0% (历史最佳, 40次)",
+        "八yo feca8a41": "15.0% (历史最佳, 34次)",
+        "二yo 0a30f2d0": "12.9% (历史最佳, 14次)",
+        "三yo 05b39523": "10.0% (历史最佳, 42次)",
+        "六yo df51fa52": "10.0% (历史最佳, 16次)",
+        "七yo c40db47c": "7.0% (历史最佳, 18次)",
+        "十yo e34cb9f7": "6.25% (历史最佳, 24次)"
+      },
+      "packPageMax": 79,
+      "_copyPoolIndex": 0
+    }
+  },
+  "packRules": {
+    "mustContainOneOf": [
+      "globe",
+      "smart",
+      "dito",
+      "tnt"
+    ],
+    "mustNotContain": [
+      "黑名单"
+    ],
+    "sourceMustStartWith": "小财财ai发送",
+    "searchQuery": "小财财ai发送",
+    "packPage": 63,
+    "packPageSize": 100,
+    "description": "kt14: Globe=63-67, Smart=75-79, 5页隔离×双载波独立, 铁律不可改",
+    "_lockedBy": "终端kt06",
+    "_lockedAt": "2026-05-05",
+    "packPageMax": 67,
+    "_note": "kt14铁律固定page=31-35, source=小财财ai发送, 与其他终端页面隔离, 包源绑定不可跨组"
+  },
+  "template": {
+    "matchKeyword": "ai模版自动发送",
+    "couponName": "FREE_SPIN x 1 (ID:2804039)",
+    "couponId": "2804039",
+    "antiSpamPriority": true,
+    "preferredStyle": "suspense",
+    "preferredTemplateKeywords": [
+      "悬念",
+      "5 seconds",
+      "useful",
+      "JackPot",
+      "Credited",
+      "Coverage",
+      "might be",
+      "most useful",
+      "seconds of your"
+    ],
+    "avoidTemplateKeywords": [
+      "ACT NOW",
+      "Urgent",
+      "R4FFLE",
+      "b0nus",
+      "Sp1ns",
+      "Free Sp1ns",
+      "LIMITED TIME",
+      "HURRY",
+      "LAST CHANCE",
+      "winning rate",
+      "99%",
+      "NN33platform"
+    ],
+    "ctrData": {
+      "taglish_balance_notification": {
+        "clicks": 9,
+        "sent": 200,
+        "ctr": "4.5%",
+        "template": "0427d",
+        "carrier": "globe/dito",
+        "note": "may P6,188 na balance para sa... available pa hanggang bukas, check mo na"
+      },
+      "taglish_wallet_add": {
+        "clicks": 0,
+        "sent": 0,
+        "ctr": "TBD",
+        "template": "0427e",
+        "carrier": "globe/dito",
+        "note": "meron kang P2,988 na na-add sa wallet"
+      },
+      "suspense": {
+        "clicks": 9,
+        "sent": 200,
+        "ctr": "4.5%",
+        "note": "旧悬念型: This might be the most useful 5 seconds of your day"
+      },
+      "reward": {
+        "clicks": 0,
+        "sent": 200,
+        "ctr": "0%",
+        "note": "奖金/红包类走垃圾箱"
+      },
+      "urgent": {
+        "clicks": 0,
+        "sent": 200,
+        "ctr": "0%",
+        "note": "Urgent/Act Now走垃圾箱"
+      }
+    },
+    "_ticketIronRule": "铁律: FREE_SPIN x 1 (ID:2804039) 固定不可改，任何更改须Willy同意"
+  },
+  "antiSpam": {
+    "sidStrategy": {
+      "description": "PAGCOR SID (如OKBET/PBAHAY) 是最强垃圾信号, Google 已建品牌名黑名单",
+      "rules": [
+        "PAGCOR SID + 英文促销词 = 100% 垃圾箱",
+        "PAGCOR SID + Tagalog 对话式 = 有机会绕过",
+        "Numeric SID + 零品牌名内容 = 最低垃圾评分",
+        "品牌名放内容里而非 SID 里"
+      ]
+    },
+    "contentRules": {
+      "preferTaglish": true,
+      "preferSuspense": true,
+      "zeroGamblingKeywords": true,
+      "conversationalNotAd": true,
+      "hardRules": [
+        "开头不放品牌名大写: OKBET: 冒号格式 = 广告模板信号 (-40分)",
+        "不能全英文: Taglish混搭比纯英文安全, 纯英文扣20分",
+        "不超过1个感叹号: 多感叹号是垃圾短信经典特征, 第2个起每个-15分",
+        "不用祈使句: Claim now → pwede mo na makuha, 祈使句-25分",
+        "禁止非ASCII字符: emoji/特殊字符算2条短信费用, 有非ASCII-50分",
+        "不超过145字符: 超出算2条短信费用, 超长-50分"
+      ],
+      "redlineVeto": {
+        "description": "碰红线 = 模板直接淘汰, score = -999, 永不使用",
+        "redlineWords": [
+          "ACT NOW",
+          "CLAIM NOW",
+          "CLICK NOW",
+          "DEPOSIT NOW",
+          "SIGN UP NOW",
+          "URGENT DEPOSIT",
+          "URGENT OFFER",
+          "FREE SPIN",
+          "FREE BONUS",
+          "LIMITED TIME",
+          "LAST CHANCE",
+          "HURRY UP",
+          "DON'T MISS",
+          "NN33platform",
+          "winning rate",
+          "99% winning",
+          "btKJ3bf7",
+          "cutt.ly/btKJ3bf7"
+        ],
+        "gamblingBlacklist": [
+          "BET",
+          "BONUS",
+          "DEPOSIT",
+          "CASINO",
+          "FREE",
+          "CLAIM",
+          "REWARD",
+          "PROMO",
+          "SPIN",
+          "JACKPOT",
+          "RAFFLE",
+          "PRIZE",
+          "WAGER",
+          "PAYOUT",
+          "CASHBACK",
+          "REBATE",
+          "VIP",
+          "OKBET",
+          "PBAHAY"
+        ],
+        "leetPatterns": [
+          "R4FFL",
+          "B0NU",
+          "SP1N",
+          "D3POS",
+          "CL4IM",
+          "FR33",
+          "J4CKP0T"
+        ],
+        "brandPlusPromoIn30chars": true,
+        "maxExclamation": 3
+      },
+      "taglishRules": {
+        "description": "英语骨架 + 植入1-2个菲律宾病词, 破坏Google英文垃圾模型N-gram匹配链",
+        "maxInsertWords": 2,
+        "priorityInsertWords": [
+          "na",
+          "mo",
+          "lang",
+          "pa"
+        ],
+        "insertWordPool": {
+          "na": {
+            "meaning": "了/已经",
+            "usage": "available na, ready na"
+          },
+          "mo": {
+            "meaning": "你/你的",
+            "usage": "check mo, number mo"
+          },
+          "ka": {
+            "meaning": "你(主格)",
+            "usage": "sige ka, grabe ka"
+          },
+          "lang": {
+            "meaning": "只是/而已",
+            "usage": "quick lang, simple lang"
+          },
+          "pa": {
+            "meaning": "还/再",
+            "usage": "active pa, open pa"
+          },
+          "ba": {
+            "meaning": "吗",
+            "usage": "seen mo ba?"
+          },
+          "nga": {
+            "meaning": "确实/嘛",
+            "usage": "try mo nga"
+          },
+          "kasi": {
+            "meaning": "因为",
+            "usage": "kasi there's something"
+          },
+          "sige": {
+            "meaning": "行/来吧",
+            "usage": "sige try mo"
+          },
+          "baka": {
+            "meaning": "说不定",
+            "usage": "baka you missed it"
+          },
+          "agad": {
+            "meaning": "马上",
+            "usage": "check mo agad"
+          },
+          "talaga": {
+            "meaning": "真的/确实",
+            "usage": "it's true talaga"
+          },
+          "naman": {
+            "meaning": "却/嘛",
+            "usage": "this one naman"
+          },
+          "uy": {
+            "meaning": "嘿",
+            "usage": "uy check this"
+          }
+        },
+        "taglishTemplates": [
+          "Something new available na for {$phone[4]}. Check mo agad: ${shortUrl}",
+          "May update sa account mo. Quick look lang: ${shortUrl}",
+          "Baka you missed this. Check mo nga before it expires: ${shortUrl}",
+          "Grabe, this showed up for you. Tingnan mo: ${shortUrl}",
+          "Your account has something new. View mo na lang: ${shortUrl}",
+          "Sige, one quick look lang. This might help: ${shortUrl}",
+          "Active pa ito. Check mo before ma-close: ${shortUrl}",
+          "Quick update on your end. Baka kailangan mo: ${shortUrl}"
+        ]
+      },
+      "gamblingBlacklist": [
+        "bet",
+        "bonus",
+        "deposit",
+        "casino",
+        "free",
+        "claim",
+        "reward",
+        "promo",
+        "spin",
+        "jackpot",
+        "raffle",
+        "prize",
+        "wager",
+        "payout",
+        "cashback",
+        "rebate",
+        "okbet",
+        "pbahay",
+        "NN33platform",
+        "winning rate",
+        "99%"
+      ],
+      "taglishExamples": {
+        "bad": [
+          "OKBET: FREE 100 PESOS BONUS! Claim now at okbet.com",
+          "PBAHAY: Deposit now get 150% bonus! Click bit.ly/xxx"
+        ],
+        "good": [
+          "Hi Maria, may update ang account mo. Check na lang pag may time. -Team",
+          "Maria, ready na yung sinabi ko sa'yo last time. Pwede mo na i-check."
+        ]
+      },
+      "scoringWeights": {
+        "taglishPhrase": 40,
+        "tagalogDensity": 45,
+        "suspenseSignal": 25,
+        "questionMark": 5,
+        "gamblingKeyword": -50,
+        "avoidKeyword": -30,
+        "spamWord": -8,
+        "exclamationMark": -15,
+        "highCapsRatio": -15,
+        "brandColonStart": -40,
+        "pureEnglish": -20,
+        "imperative": -25,
+        "nonAsciiChar": -20,
+        "over145chars": -30
+      }
+    }
+  },
+  "shortlink": {
+    "mappingMode": "recipient",
+    "mode": "domain",
+    "domainCount": 60
+  },
+  "round": {
+    "packsPerRound": 9,
+    "minCleanCount": 30,
+    "plannedAtOffsetSeconds": 10,
+    "clickThreshold": 1,
+    "pollPhaseA_seconds": 30,
+    "pollPhaseA_interval": 10,
+    "pollPhaseB_seconds": 30,
+    "pollPhaseB_interval": 10,
+    "skipPolling": true
+  },
+  "probePack": {
+    "enabled": false,
+    "description": "铁律4: 每轮先发1包探测, 等投放完成后查复盘看板CTR%, CTR>0才继续发剩余包, CTR=0立即停+自动换文案, 避免浪费号码包",
+    "pollSeconds": 180,
+    "pollInterval": 15,
+    "minClicks": 1,
+    "maxRoundsZeroClick": 10,
+    "cooldownAfterZeroClick": 100
+  },
+  "sendSchedule": {
+    "activeRange": {
+      "start": "07:00",
+      "end": "07:00"
+    },
+    "description": "每天07:00到次日02:00发送, 5秒10包基础节奏, CTR驱动动态调整",
+    "ctrThresholds": {
+      "pause": 0.05,
+      "scale": 0.06,
+      "description": "CTR<5%暂停+换文案, CTR>=6%加量, 5-6%保持基础量 (铁律:每批CTR>=5%)",
+      "scalePacks": 40,
+      "basePacks": 30,
+      "minSendsForJudgment": 100,
+      "cooldownAfterPause": 600,
+      "maxConsecutiveLowCtr": 3
+    },
+    "copySwitch": {
+      "description": "CTR低时自动换文案: 生成Taglish→评分→选最优→替换模板",
+      "enabled": false,
+      "generationCount": 5,
+      "minScore": 60,
+      "carrierSpecific": true,
+      "requireTaglish": true,
+      "skillsChain": [
+        "bowjwj-copy-generate",
+        "bowjwj-copy-analyze",
+        "bowjwj-channel-analyze",
+        "bowjwj-performance",
+        "bowjwj-copy-test"
+      ],
+      "autoTest": false,
+      "note": "autoTest=false: 新文案直接替换上线不等测试(快速迭代). true=先test-send验证再替换(安全)"
+    },
+    "tiers": [
+      {
+        "name": "早高峰",
+        "windows": [
+          {
+            "start": "07:00",
+            "end": "09:00"
+          }
+        ],
+        "cycleSeconds": 3,
+        "packsPerRound": 9,
+        "note": "3秒7包"
+      },
+      {
+        "name": "午高峰",
+        "windows": [
+          {
+            "start": "12:00",
+            "end": "13:00"
+          }
+        ],
+        "cycleSeconds": 3,
+        "packsPerRound": 9,
+        "note": "3秒7包"
+      },
+      {
+        "name": "晚高峰",
+        "windows": [
+          {
+            "start": "18:00",
+            "end": "20:00"
+          }
+        ],
+        "cycleSeconds": 3,
+        "packsPerRound": 9,
+        "note": "3秒7包"
+      },
+      {
+        "name": "正常时段",
+        "windows": [
+          {
+            "start": "09:00",
+            "end": "12:00"
+          },
+          {
+            "start": "13:00",
+            "end": "18:00"
+          },
+          {
+            "start": "20:00",
+            "end": "07:00"
+          }
+        ],
+        "cycleSeconds": 3,
+        "packsPerRound": 9,
+        "note": "3秒7包"
+      }
+    ]
+  },
+  "titlePrefixFormat": "YYYYMMDD-HHMM",
+  "exhaustRetrySeconds": 600,
+  "cacheTTLSeconds": 900,
+  "_packSourceGroup": "小财财ai发送",
+  "_packSourceIronRule": "铁律: kt14包源固定绑定小财财ai发送, 终端组: 小财财ai发送, 不可跨组使用其他包源"
+}

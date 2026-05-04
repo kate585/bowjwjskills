@@ -42,7 +42,7 @@ if sys.platform == "win32":
 # ── Paths ──
 SCRIPT_DIR = Path(__file__).parent
 DEFAULT_RULES = SCRIPT_DIR / "send_rules.json"
-STATE_DIR = Path.home() / ".hermes" / "state" / "bowjwj"
+STATE_DIR = SCRIPT_DIR  # GitHub repo is the source of truth
 JWT_FILE = STATE_DIR / ".jwt"
 CACHE_FILE_GLOBE = SCRIPT_DIR / "prereq_cache_globe.json"
 CACHE_FILE_SMART = SCRIPT_DIR / "prereq_cache_smart.json"
