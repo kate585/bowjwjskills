@@ -1,0 +1,566 @@
+{
+  "version": "2026-04-27-v2",
+  "site": "NN33",
+  "backendInstanceId": "c7ee7c4c-ce0a-49c9-880a-9315d07c07b6",
+  "apiBase": "https://bowjwj.cc",
+  "jwtFile": "~/.hermes/state/bowjwj/.jwt",
+  "terminals": {
+    "001": {
+      "packsPerRound": 6,
+      "cycleSeconds": 3,
+      "label": "终端001号"
+    },
+    "002": {
+      "packsPerRound": 7,
+      "cycleSeconds": 3,
+      "label": "kt010"
+    },
+    "003": {
+      "packsPerRound": 8,
+      "cycleSeconds": 3,
+      "label": "终端003号"
+    },
+    "_locked": true,
+    "_note": "Willy 2026-05-03 设定, 没有Willy允许不可随意更换, 禁止tier动态调整覆盖",
+    "kt11": {
+      "packsPerRound": 9,
+      "cycleSeconds": 3,
+      "label": "终端kt11号"
+    }
+  },
+  "blockedChannels": [],
+  "_blockedChannelsNote": "2026-05-03 Willy指令: GG全网通4条+十yoVKEmpireWin恢复使用, 十五Globe+三yoSmart仍在禁用",
+  "carriers": {
+    "globe": {
+      "packPage": 16,
+      "packPageMax": 18,
+      "packPageSize": 20,
+      "packNameKeywords": [
+        "globe",
+        "dito"
+      ],
+      "channelKeywords": [
+        "AI：Globe",
+        "AI：globe&dito",
+        "Globe&Dito"
+      ],
+      "preferredChannelId": null,
+      "preferredChannelName": "十五 yo家 Globe&Dito BLOCKED per Willy 2026-05-02 05:30BJ",
+      "_preferredChannelBlocked": "十五 Globe&Dito BLOCKED 2026-05-02 Willy指令, 原50%CTR但近期垃圾信箱风控",
+      "copyPoolEnabled": true,
+      "copyPoolTemplateIds": [
+        "7eb6db84-6df3-432e-91df-57bea5aa55d1",
+        "b88fe43c-0f68-4097-a9a9-5a05c83138c1",
+        "8e99b929-ee47-4e16-9f53-e806a1abef96",
+        "2cd24d5a-8be7-444c-b00c-5dbc37704330",
+        "d8bc4080-0509-46ae-9e84-0e9bdf94cddd",
+        "0f3ea5e4-9a1e-482a-96e3-414eef265bb5",
+        "08cce9fa-d82e-4cf9-b131-95bb4aa90f5b",
+        "766992cc-f2b6-445c-b53e-9a8fa47c84f9",
+        "729c417c-50e5-4dfa-b3ed-bbeffeb0f657",
+        "1e88c0dd-1376-4c35-905b-117e23597d30",
+        "88406870-735f-4031-9d42-4e7ffc7bc5bf",
+        "567710d4-54c6-4ee0-8ac1-379377f802cb",
+        "bfe3509d-99ae-48f9-975c-7ce8ee649a78",
+        "bb9e3c57-80f7-4d44-8f4f-e77f72c7d51c",
+        "e9eb95c5-2f90-4cf9-9077-6aa156eff7fb",
+        "4f10cb2d-abf0-4f90-b874-29cd92850de3",
+        "65ca6cde-3bd3-462e-8fb7-fdb745021f8d",
+        "b47a4c4f-5b41-45cc-b2fa-0dccf136e23c",
+        "d487d5aa-bef6-4b47-b695-7ef3943cfa22",
+        "466d92dc-fad1-4b7d-aeab-e9f796281712",
+        "887c970f-ee89-48f6-9c69-26138909732f",
+        "d8a721de-1fe2-439f-9e37-18db70ea20b3",
+        "2c3d0d2d-7764-486b-b0ff-e61790a58a71",
+        "f3fdb0f3-2d7d-4da8-9a06-7f304f69ec64",
+        "c5e1a354-aeae-4db1-8472-b11b2e9866c9",
+        "e0b4bba8-b1fb-4650-aa07-e2fef654cb4b",
+        "06b9fbff-bcf8-41c5-98f0-b12d868437eb",
+        "a9146eb8-d215-4e96-9718-d03a87eb559d",
+        "efa836f1-12b2-454b-96ec-89c3960795b6",
+        "7583de7d-25dd-4aec-822d-a70e2468490d",
+        "86abe5fc-94d1-4e25-8a10-3facbd78c78f"
+      ],
+      "_copyPoolNote": "Top30 best daily copies 2026-05-03 test CTR ranked, Globe pool",
+      "excludeKeywords": [],
+      "_g5_deprecated": "59fb2224-941f-4e95-9d5e-dd62c98ec94b CTR_ZERO_DEPRECATED 2026-05-01 fast_send Round1",
+      "_channel_ctr_data": {
+        "十五 dc70d6e8": "50.0% (历史最佳, 73次)",
+        "五 04596485": "20.0% (27/135)",
+        "四 a1e0747e": "12.5% (16/128)",
+        "十二 8b029e9a": "8.0% (历史最佳, 29次)",
+        "十四 f61e1f3f": "7.0% (历史最佳, 36次)",
+        "十一 e062ada6": "3.4% (4/116)",
+        "十三 f49e287b": "1.7% (2/118) LOW",
+        "一 699847d5": "0.0% DEPRECATED"
+      }
+    },
+    "smart": {
+      "packPage": 16,
+      "packPageMax": 18,
+      "packPageSize": 20,
+      "packNameKeywords": [
+        "smart",
+        "tnt"
+      ],
+      "channelKeywords": [
+        "AI：Smart",
+        "AI：smart&TNT",
+        "smart&TNT"
+      ],
+      "preferredChannelId": "165b9ca3-3220-4383-bcc2-901941ffcfd3",
+      "preferredChannelName": "九yo家 smart&TNT LuckyPlay S 25%CTR",
+      "copyPoolEnabled": true,
+      "copyPoolTemplateIds": [
+        "7eb6db84-6df3-432e-91df-57bea5aa55d1",
+        "6228e20f-5468-40de-9648-af09b3f1e832",
+        "8e4ca943-a02b-4d97-a8d0-636473692672",
+        "4940c0ef-385b-4f7f-bcad-76340f24b05c",
+        "73c3ef7e-b85f-4c13-94ee-290d9ec9a62f",
+        "8ef280d5-1461-42bf-8a1c-e11061738b16",
+        "4a0f7d48-703b-4b0c-af49-7ed32f737b1a",
+        "bb9acc40-7532-4459-a64e-b19b9815c182",
+        "e9a6c798-7a95-44d3-a9d1-61cb259c60ce",
+        "d5d25b34-8f07-4e46-95e7-8e0a9ec6e2c7",
+        "1803f4de-dec8-4429-b07d-b9fb815f2118",
+        "8a592098-5a58-4166-b289-d18ae127f2ed",
+        "62b499fb-febb-4179-ae59-7708a60a9406",
+        "9f25c93f-4b79-4441-958a-949aba05ba1d",
+        "e9227c83-a1c1-4e1e-8499-62ed8bac4a9f",
+        "3fe3e6ee-97bd-4db4-bc2a-1d7aaf41cda9",
+        "f8e77795-e203-48f0-83e2-4060855ccd56",
+        "d231aee7-342c-4538-8b30-f6b3920a7d2a",
+        "85c1563a-c724-4124-8bed-6dac0a07cbdf",
+        "bc5b8f21-899a-405c-b977-a03357da62c9",
+        "e593a1fb-72b9-460e-b0ab-e4c7fd9944f3",
+        "3f243ae4-0bc1-4958-87cd-4a47f3757977",
+        "b2d012ab-4b36-4669-9418-722ef675f9da",
+        "ac2fce35-1b75-411e-ae5f-1770713bc5db",
+        "6e90a113-b3e2-4f8f-855b-5c9c2efe8700",
+        "4ff11126-f93e-4780-8f3c-58eefe72fbf1",
+        "f1589cb2-a9b2-4381-bc44-ab95728d6608",
+        "71128c76-9612-44bf-bfd4-fec2f04f2af0",
+        "f0aff509-de87-4911-9ece-dfff47c2dd11",
+        "803d82b8-db4f-4e8a-8c47-67d0dc6474cc",
+        "f96d2fe7-e092-4848-a560-2f0149818ef7"
+      ],
+      "_copyPoolNote": "Top30 best daily copies 2026-05-03 test CTR ranked, Smart pool",
+      "excludeKeywords": [
+        "4.30号入款"
+      ],
+      "_excludeNote": "4.30号入款包全部被凯总巴西项目占满, 排除后用ai自动发送任务包/银河城市包",
+      "_channel_ctr_data": {
+        "九yo 165b9ca3": "25.0% (历史最佳, 40次)",
+        "八yo feca8a41": "15.0% (历史最佳, 34次)",
+        "二yo 0a30f2d0": "12.9% (历史最佳, 14次)",
+        "三yo 05b39523": "10.0% (历史最佳, 42次)",
+        "六yo df51fa52": "10.0% (历史最佳, 16次)",
+        "七yo c40db47c": "7.0% (历史最佳, 18次)",
+        "十yo e34cb9f7": "6.25% (历史最佳, 24次)"
+      }
+    }
+  },
+  "packRules": {
+    "mustContainOneOf": [
+      "globe",
+      "smart",
+      "dito",
+      "tnt"
+    ],
+    "mustNotContain": [
+      "黑名单"
+    ],
+    "sourceMustStartWith": "凯特ai发送B0503",
+    "searchQuery": "凯特ai发送B0503",
+    "packPage": 16,
+    "packPageMax": 18,
+    "packPageSize": 20,
+    "description": "kt06独占: page=16-18全取合并, 铁律不可违反",
+    "_lockedBy": "kt06",
+    "_lockedAt": "2026-05-03 07:10 BJ"
+  },
+  "template": {
+    "matchKeyword": "ai模版自动发送",
+    "couponName": "SMS Super Ace Free CouponX",
+    "couponId": "2804039",
+    "antiSpamPriority": true,
+    "preferredStyle": "suspense",
+    "preferredTemplateKeywords": [
+      "悬念",
+      "5 seconds",
+      "useful",
+      "JackPot",
+      "Credited",
+      "Coverage",
+      "might be",
+      "most useful",
+      "seconds of your"
+    ],
+    "avoidTemplateKeywords": [
+      "ACT NOW",
+      "Urgent",
+      "R4FFLE",
+      "b0nus",
+      "Sp1ns",
+      "Free Sp1ns",
+      "LIMITED TIME",
+      "HURRY",
+      "LAST CHANCE"
+    ],
+    "ctrData": {
+      "taglish_balance_notification": {
+        "clicks": 9,
+        "sent": 200,
+        "ctr": "4.5%",
+        "template": "0427d",
+        "carrier": "globe/dito",
+        "note": "may P6,188 na balance para sa... available pa hanggang bukas, check mo na"
+      },
+      "taglish_wallet_add": {
+        "clicks": 0,
+        "sent": 0,
+        "ctr": "TBD",
+        "template": "0427e",
+        "carrier": "globe/dito",
+        "note": "meron kang P2,988 na na-add sa wallet"
+      },
+      "suspense": {
+        "clicks": 9,
+        "sent": 200,
+        "ctr": "4.5%",
+        "note": "旧悬念型: This might be the most useful 5 seconds of your day"
+      },
+      "reward": {
+        "clicks": 0,
+        "sent": 200,
+        "ctr": "0%",
+        "note": "奖金/红包类走垃圾箱"
+      },
+      "urgent": {
+        "clicks": 0,
+        "sent": 200,
+        "ctr": "0%",
+        "note": "Urgent/Act Now走垃圾箱"
+      }
+    }
+  },
+  "antiSpam": {
+    "sidStrategy": {
+      "description": "PAGCOR SID (如OKBET/PBAHAY) 是最强垃圾信号, Google 已建品牌名黑名单",
+      "rules": [
+        "PAGCOR SID + 英文促销词 = 100% 垃圾箱",
+        "PAGCOR SID + Tagalog 对话式 = 有机会绕过",
+        "Numeric SID + 零品牌名内容 = 最低垃圾评分",
+        "品牌名放内容里而非 SID 里"
+      ]
+    },
+    "contentRules": {
+      "preferTaglish": true,
+      "preferSuspense": true,
+      "zeroGamblingKeywords": true,
+      "conversationalNotAd": true,
+      "hardRules": [
+        "开头不放品牌名大写: OKBET: 冒号格式 = 广告模板信号 (-40分)",
+        "不能全英文: Taglish混搭比纯英文安全, 纯英文扣20分",
+        "不超过1个感叹号: 多感叹号是垃圾短信经典特征, 第2个起每个-15分",
+        "不用祈使句: Claim now → pwede mo na makuha, 祈使句-25分",
+        "禁止非ASCII字符: emoji/特殊字符算2条短信费用, 有非ASCII-50分",
+        "不超过145字符: 超出算2条短信费用, 超长-50分"
+      ],
+      "redlineVeto": {
+        "description": "碰红线 = 模板直接淘汰, score = -999, 永不使用",
+        "redlineWords": [
+          "ACT NOW",
+          "CLAIM NOW",
+          "CLICK NOW",
+          "DEPOSIT NOW",
+          "SIGN UP NOW",
+          "URGENT DEPOSIT",
+          "URGENT OFFER",
+          "FREE SPIN",
+          "FREE BONUS",
+          "LIMITED TIME",
+          "LAST CHANCE",
+          "HURRY UP",
+          "DON'T MISS"
+        ],
+        "gamblingBlacklist": [
+          "BET",
+          "BONUS",
+          "DEPOSIT",
+          "CASINO",
+          "FREE",
+          "CLAIM",
+          "REWARD",
+          "PROMO",
+          "SPIN",
+          "JACKPOT",
+          "RAFFLE",
+          "PRIZE",
+          "WAGER",
+          "PAYOUT",
+          "CASHBACK",
+          "REBATE",
+          "VIP",
+          "OKBET",
+          "PBAHAY"
+        ],
+        "leetPatterns": [
+          "R4FFL",
+          "B0NU",
+          "SP1N",
+          "D3POS",
+          "CL4IM",
+          "FR33",
+          "J4CKP0T"
+        ],
+        "brandPlusPromoIn30chars": true,
+        "maxExclamation": 3
+      },
+      "taglishRules": {
+        "description": "英语骨架 + 植入1-2个菲律宾病词, 破坏Google英文垃圾模型N-gram匹配链",
+        "maxInsertWords": 2,
+        "priorityInsertWords": [
+          "na",
+          "mo",
+          "lang",
+          "pa"
+        ],
+        "insertWordPool": {
+          "na": {
+            "meaning": "了/已经",
+            "usage": "available na, ready na"
+          },
+          "mo": {
+            "meaning": "你/你的",
+            "usage": "check mo, number mo"
+          },
+          "ka": {
+            "meaning": "你(主格)",
+            "usage": "sige ka, grabe ka"
+          },
+          "lang": {
+            "meaning": "只是/而已",
+            "usage": "quick lang, simple lang"
+          },
+          "pa": {
+            "meaning": "还/再",
+            "usage": "active pa, open pa"
+          },
+          "ba": {
+            "meaning": "吗",
+            "usage": "seen mo ba?"
+          },
+          "nga": {
+            "meaning": "确实/嘛",
+            "usage": "try mo nga"
+          },
+          "kasi": {
+            "meaning": "因为",
+            "usage": "kasi there's something"
+          },
+          "sige": {
+            "meaning": "行/来吧",
+            "usage": "sige try mo"
+          },
+          "baka": {
+            "meaning": "说不定",
+            "usage": "baka you missed it"
+          },
+          "agad": {
+            "meaning": "马上",
+            "usage": "check mo agad"
+          },
+          "talaga": {
+            "meaning": "真的/确实",
+            "usage": "it's true talaga"
+          },
+          "naman": {
+            "meaning": "却/嘛",
+            "usage": "this one naman"
+          },
+          "uy": {
+            "meaning": "嘿",
+            "usage": "uy check this"
+          }
+        },
+        "taglishTemplates": [
+          "Something new available na for {$phone[4]}. Check mo agad: ${shortUrl}",
+          "May update sa account mo. Quick look lang: ${shortUrl}",
+          "Baka you missed this. Check mo nga before it expires: ${shortUrl}",
+          "Grabe, this showed up for you. Tingnan mo: ${shortUrl}",
+          "Your account has something new. View mo na lang: ${shortUrl}",
+          "Sige, one quick look lang. This might help: ${shortUrl}",
+          "Active pa ito. Check mo before ma-close: ${shortUrl}",
+          "Quick update on your end. Baka kailangan mo: ${shortUrl}"
+        ]
+      },
+      "gamblingBlacklist": [
+        "bet",
+        "bonus",
+        "deposit",
+        "casino",
+        "free",
+        "claim",
+        "reward",
+        "promo",
+        "spin",
+        "jackpot",
+        "raffle",
+        "prize",
+        "wager",
+        "payout",
+        "cashback",
+        "rebate",
+        "okbet",
+        "pbahay"
+      ],
+      "taglishExamples": {
+        "bad": [
+          "OKBET: FREE 100 PESOS BONUS! Claim now at okbet.com",
+          "PBAHAY: Deposit now get 150% bonus! Click bit.ly/xxx"
+        ],
+        "good": [
+          "Hi Maria, may update ang account mo. Check na lang pag may time. -Team",
+          "Maria, ready na yung sinabi ko sa'yo last time. Pwede mo na i-check."
+        ]
+      },
+      "scoringWeights": {
+        "taglishPhrase": 40,
+        "tagalogDensity": 45,
+        "suspenseSignal": 25,
+        "questionMark": 5,
+        "gamblingKeyword": -50,
+        "avoidKeyword": -30,
+        "spamWord": -8,
+        "exclamationMark": -15,
+        "highCapsRatio": -15,
+        "brandColonStart": -40,
+        "pureEnglish": -20,
+        "imperative": -25,
+        "nonAsciiChar": -20,
+        "over145chars": -30
+      }
+    }
+  },
+  "shortlink": {
+    "mappingMode": "recipient",
+    "mode": "domain",
+    "domainCount": 60
+  },
+  "round": {
+    "packsPerRound": 9,
+    "minCleanCount": 30,
+    "plannedAtOffsetSeconds": 10,
+    "clickThreshold": 1,
+    "pollPhaseA_seconds": 30,
+    "pollPhaseA_interval": 10,
+    "pollPhaseB_seconds": 30,
+    "pollPhaseB_interval": 10,
+    "skipPolling": false
+  },
+  "probePack": {
+    "enabled": false,
+    "description": "铁律4: 每轮先发1包探测, 等投放完成后查复盘看板CTR%, CTR>0才继续发剩余包, CTR=0立即停+自动换文案, 避免浪费号码包",
+    "pollSeconds": 180,
+    "pollInterval": 15,
+    "minClicks": 1,
+    "maxRoundsZeroClick": 3,
+    "cooldownAfterZeroClick": 600
+  },
+  "sendSchedule": {
+    "activeRange": {
+      "start": "07:00",
+      "end": "07:00"
+    },
+    "description": "每天07:00到次日02:00发送, 5秒10包基础节奏, CTR驱动动态调整",
+    "ctrThresholds": {
+      "pause": 0.05,
+      "scale": 0.06,
+      "description": "CTR<5%暂停+换文案, CTR>=6%加量, 5-6%保持基础量 (铁律:每批CTR>=5%)",
+      "scalePacks": 40,
+      "basePacks": 30,
+      "minSendsForJudgment": 100,
+      "cooldownAfterPause": 600,
+      "maxConsecutiveLowCtr": 3
+    },
+    "copySwitch": {
+      "description": "CTR低时自动换文案: 生成Taglish→评分→选最优→替换模板",
+      "enabled": false,
+      "generationCount": 5,
+      "minScore": 60,
+      "carrierSpecific": true,
+      "requireTaglish": true,
+      "skillsChain": [
+        "bowjwj-copy-generate",
+        "bowjwj-copy-analyze",
+        "bowjwj-channel-analyze",
+        "bowjwj-performance",
+        "bowjwj-copy-test"
+      ],
+      "autoTest": false,
+      "note": "autoTest=false: 新文案直接替换上线不等测试(快速迭代). true=先test-send验证再替换(安全)"
+    },
+    "tiers": [
+      {
+        "name": "早高峰",
+        "windows": [
+          {
+            "start": "07:00",
+            "end": "09:00"
+          }
+        ],
+        "cycleSeconds": 3,
+        "packsPerRound": 9,
+        "note": "3秒7包"
+      },
+      {
+        "name": "午高峰",
+        "windows": [
+          {
+            "start": "12:00",
+            "end": "13:00"
+          }
+        ],
+        "cycleSeconds": 3,
+        "packsPerRound": 9,
+        "note": "3秒7包"
+      },
+      {
+        "name": "晚高峰",
+        "windows": [
+          {
+            "start": "18:00",
+            "end": "20:00"
+          }
+        ],
+        "cycleSeconds": 3,
+        "packsPerRound": 9,
+        "note": "3秒7包"
+      },
+      {
+        "name": "正常时段",
+        "windows": [
+          {
+            "start": "09:00",
+            "end": "12:00"
+          },
+          {
+            "start": "13:00",
+            "end": "18:00"
+          },
+          {
+            "start": "20:00",
+            "end": "07:00"
+          }
+        ],
+        "cycleSeconds": 3,
+        "packsPerRound": 9,
+        "note": "3秒7包"
+      }
+    ]
+  },
+  "titlePrefixFormat": "YYYYMMDD-HHMM",
+  "exhaustRetrySeconds": 600,
+  "cacheTTLSeconds": 900
+}
