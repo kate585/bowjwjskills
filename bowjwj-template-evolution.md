@@ -87,7 +87,7 @@ POST /api/campaign-templates/ai-regenerate-sms
 body: { templateId, backendInstanceId, style, requiredVariables, ... }
 返回: { smsText, rationale }
 
-★ 权限: TEXT_MANAGE (SUPER_ADMIN 有)
+★ 权限: TEXT_MANAGE (OPS_ADMIN 有)
 ```
 
 ## 视图组装

@@ -1,6 +1,6 @@
 ---
 name: bowjwj-auto-campaign
-description: bowjwj AICRM 自动化发信循环协调器。当 Willy 说"开始发信 / 跑自动发信 / 继续发短信 / 停发信"时加载。每 1 分钟一轮, smart + globe 并行, 每轮 2 个 TG 审批由 Willy 手点或 TG 自动审批。详见 bowjwj-aicrm skill 的 API 地图。脚本: fast_send.py。
+description: bowjwj AICRM 自动化发信循环协调器。当 Willy 说"开始发信 / 跑自动发信 / 继续发短信 / 停发信"时加载。每 3 分钟一轮, smart + globe 并行, 每轮 2 个 TG 审批由 Willy 手点。详见 bowjwj-aicrm skill 的 API 地图。
 ---
 
 # bowjwj 自动发信循环 skill
@@ -12,136 +12,6 @@ description: bowjwj AICRM 自动化发信循环协调器。当 Willy 说"开始�
 - Willy 问 "今天发了多少" / "有没有点击量"
 
 同时加载 `bowjwj-aicrm` skill 拿基础 API 地图。
-
----
-
-## 🆕 新发信流程 (2026-04-29 Willy 拍板)
-
-**核心变化**: 不用一键发送/test-send，改用「创建模板→新建活动→指定通道发信」三页流程。
-
-### 为什么改
-
-```
-旧: test-send 8通道并发 → 只第1包有sent数，其余包sent=0，代理线碎片化
-新: 1模板×1通道×10-15包 → 创建活动后逐包指定通道发信，每3秒1包
-   → 同批次同代理线归因，边发边看UV/CTR，规避垃圾信箱+风控
-```
-
-### 第1页: POST 创建模板
-
-```
-POST /api/campaign-templates
-  templateName: "AI发送+<方向文字描述>"
-  backendInstanceId: "c7ee7c4c-ce0a-49c9-880a-9315d07c07b6"  (NN33)
-  activityName: "NN33 New Jackpot"
-  ticketRewards: [{"ticketType": "RAFFLE", "ticketId": "2659055", "ticketQuantity": 1}]
-  smsText: "<1条文案>"     ← 每次不同，轮训机制
-  defaultValidityHours: 168
-  validityPeriod: "7D"
-```
-
-### 第2页: POST 创建活动 (从模板)
-
-```
-号码包: 10-15包，同运营商，优先银河数据
-  排除: 包名含「黑名单」「专用」「unknown」
-通道: 1个，对应包运营商 (Smart→Smart通道, Globe→Globe通道)
-域名: 前50条
-shortlinkMappingMode: "recipient"
-```
-
-### 第3页: 启动 + 逐包指定通道发信
-
-```
-启动活动 → 每3秒点1个包的「指定通道发信」
-每发1包 → 检查复盘看板独立UV和CTR
-记录该文案效果
-```
-
-### 新8条铁律 (2026-05-01)
-
-| # | 铁律 | 原因 |
-|---|------|------|
-| 1 | 票卷: RAFFLE 2659055 + 7D | 无票卷=发送失败 |
-| 2 | 文案: 同方向CTR>=5%，<3%抛弃 | 保证效果 |
-| 3 | 通道匹配: Smart≠Globe通道 | 串运营商=无法到达 |
-| 4 | 节奏: 3秒/10包 | 规避风控+落地率，10包批量发送提高效率 |
-| 5 | 批次文案不重复: 每个批次的文案必须不同 | 避免同文案被运营商风控集中屏蔽 |
-| 6 | CTR=0必须检查文案+优化: 发送后CTR归零立即停用该文案，检查垃圾词/格式/Taglish，优化后再发 | CTR=0=文案被运营商屏蔽或用户无感，继续发浪费钱 |
-| 7 | **CTR<3%立即优化文案: 发送后CTR低于3%立刻触发文案优化，更口语Taglish/换句式/对话式开头，同批次内替换，不等下一轮** | CTR<3%=文案效果差，每多跑1包都在浪费钱(~42PHP/包) |
-| 8 | **通道出现问题立即切换: 某通道连续CTR=0或发送失败，立刻切换到其他同运营商通道，不等待不犹豫** | 通道风控/屏蔽不会自行恢复，拖延=浪费钱 |
-
----
-
-## 🔴 五条铁律 (2026-05-01 更新)
-
-### 铁律 1：发送必须搭配票卷
-
-**每一条模板必须配置 RAFFLE 2659055 + 7天有效期，否则发送全部失败。**
-
-```
-模板创建时必须带:
-  ticketRewards: [{"ticketType": "RAFFLE", "ticketId": "2659055", "ticketQuantity": 1}]
-  defaultValidityHours: 168
-  validityPeriod: "7D"
-
-⚠️ PATCH 无法修改 ticketRewards — 必须在 POST 创建时设置
-⚠️ 票卷名: 幸运红包 SMS NN33VIP / ID:2659055
-```
-
-### 铁律 2：号码包运营商必须匹配通道
-
-```
-Smart/TNT 包 → 只能用 Smart 通道 或 GG全网通
-Globe/Dito 包 → 只能用 Globe 通道 或 GG全网通
-GG全网通 → 双运营商通用，不确定包运营商时只用 GG全网通
-
-⚠️ Smart 包发 Globe 通道 = 必炸 (CTR 为 0 或极低)
-⚠️ 发之前必须检查包 source 字段确认运营商
-⚠️ "银河数据 4.27 入款 - Smart" = Smart 包，不能走 Globe 通道
-```
-
-### 铁律 3：1 代理线 = 1 模板 × 1 通道 × N 包
-
-```
-agent_lines = min(pack数, template数 × channel数)
-
-1 代理线唯一解: 1 tpl × 1 ch × N packs
-多文案/多通道 = 多条代理线，API 层面无法绕过
-```
-
-### 铁律 4：CTR 三级响应 — 0%停发, <3%优化, 通道炸切换
-
-```
-CTR = 0%:  立即停发该模板所有包 → 检查垃圾词/通道/短链 → 重写文案(换角度)
-CTR < 3%:  立即优化文案(更口语Taglish/换句式/对话式开头) → 同批次替换
-CTR < 3% × 2轮: 放弃该文案方向, 不再复用
-
-⚠️ CTR=0 时每多跑1包都是浪费钱 — 200条×0.21PHP=42PHP, 100包就是4200PHP
-⚠️ CTR<3% 不等第二轮, 当前批次内直接优化替换
-```
-
-### 铁律 5：通道出现问题立即切换
-
-**某通道连续 CTR=0 或发送失败率>50%，立刻切到其他同运营商通道，不等待。**
-
-```
-触发条件:
-  - 同一通道连续2个模板CTR=0 → 通道被运营商风控
-  - 同一通道发送失败率>50% → 通道技术故障
-  - GG全网通CTR=0 → 疑似全通道垃圾词风控, 切换专用通道
-
-处置:
-  1. 立即将该通道从轮换池中移除
-  2. 切换到下一个同运营商通道
-  3. 标记问题通道为 "CHANNEL_BLOCKED"
-  4. 24小时后可尝试复用
-
-⚠️ 通道风控不会自行恢复, 拖延=浪费钱
-⚠️ GG全网通被Smart风控后已证实CTR=0, 从Smart通道池永久移除
-```
-⚠️ 连续2条文案CTR=0 → 检查通道健康+短链域名是否被拉黑
-```
 
 ---
 
@@ -254,7 +124,7 @@ body:
 
 6. **🛑 IP 白名单**
    - bowjwj 有全站 IP 白名单, 所有 `/api/*` 返回 `IP_NOT_WHITELISTED`
-   - SUPER_ADMIN 可直接读写 `/api/ip-whitelist`
+   - OPS_ADMIN 读不了 `/api/ip-whitelist` (403), 必须 SUPER_ADMIN (Willy 本人前端操作)
    - 开跑前先 `GET /api/me` 自检, 403 直接停
    - 家里 IP 变化快, 长期稳定方案: ECS `47.83.26.52` 加白 + 用 `ssh git` 当跳板
 
@@ -271,62 +141,12 @@ body:
 
 ---
 
-## 🔴 多通道并发策略 (2026-04-28 降低代理线占用)
-
-### 问题
-
-```
-旧方式: 1 模板 × 1 通道 × N 包 → N 个 session = N 个 agent_line
-  测 1 条话术 2000 条: 1 通道 × 20 包 = 20 个 agent_line
-  100 条话术 = 2000 个 agent_line ← 爆炸
-  后续取数据麻烦 (每包一条代理线, 归因碎片化)
-```
-
-### 方案: 8 通道同时发, 1 包 = 1 agent_line
-
-```
-POST /send-direct/test-send
-  templateIds: [1个],           # 1 个话术
-  smsInstanceIds: [8个通道],    # ★ 8 通道同时发
-  phonePackIds: [1个]           # ★ 只 1 包 = 1 session = 1 agent_line
-
-效果:
-  → 1 agent_line 覆盖 8 通道的测试数据
-  → 1 包 100 条 × 8 通道 = 800 条同时发出
-  → 测 2000 条只需 3 轮 (800+800+400)
-  → 100 条话术 = 100 个 agent_line (降低 20 倍)
-```
-
-### 通道分配
-
-```
-Globe 话术测试: 用 Globe 通道池 (9 选 8)
-Smart 话术测试: 用 Smart 通道池 (7 + GG家全网通 = 8)
-
-生产发信:
-  - 效果已验证的话术 → 直接多通道放量
-  - 1 个 batch 下所有通道共享同一 agent_line
-```
-
-### 发送节奏
-
-```
-3 秒/轮 (高峰)
-1 通道: 100-200 条/秒
-8 通道: 800-1600 条/秒 = 同一批次
-
-测 2000 条/话术: 3 轮 (3 × 3 秒 = 9 秒) + 轮询等待
-全天 100 条话术 × 3 轮 = 300 轮 ≈ 15 分钟 (3 秒间隔)
-```
-
----
-
 ## 业务目标 (Willy 原话)
 
 ```
 循环跑"创建 → 测试发 1 包 → 看点击 → 过了放量"
 按 smart 套和 globe 套分别独立
-每 1 分钟一轮
+每 3 分钟一轮
 号码包耗尽 → 10 分钟后重试
 在发送窗口 (00:00-02:00 ∪ 12:00-13:30 ∪ 17:30-21:00 BJ) 内跑
 ```
@@ -348,24 +168,19 @@ Smart 话术测试: 用 Smart 通道池 (7 + GG家全网通 = 8)
     条件    → reuseLocked=false && assignmentCampaignId == null
 
 通道 (固定白名单, 按 adapter.name 精确匹配取 id):
-  Smart 套 (8 条: 7 Smart&TNT + GG家全网通)
-    三yo家 smart&TNT VKRealm / 六yo家 smart&TNT VKQuest(4月23新sid)
-    二yo家 smart&TNT VKVikingWin / 十yo家 smart&TNT VKEmpireWin(4月23新sid)
-    九yo家 smart&TNT LuckyPlay S(4月23新sid) / 八yo家 smart&TNT VKTechVibe(4月23新sid)
-    七yo家 smart&TNT VKVictoryX(4月23新sid) / 菲律宾GG家全网通
-  Globe 套 (9 条: 8 Globe&Dito + GG家全网通)
-    一/四/五/十一/十二/十三/十四/十五 菲律宾 yo家 Globe&Dito + 菲律宾GG家全网通
-  (具体名字见 bowjwj-channel-analyze skill)
+  smart 套 (7 条 smart&TNT)
+  globe 套 (9 条 Globe&Dito)
+  (具体名字见本 skill 附带的 references/channel-whitelist.md)
 
 短链映射      : "pack"  (一个号码包共用一条短链)
 短链模式      : "domain"
 域名          : 30 条 (createdAt desc, NN33 backend 的 shortlink-options)
 标题前缀      : YYYYMMDD-HHMM (北京时间当前时刻)
-计划时间      : 北京时间 + 30 秒 (ISO, 加速测试)
+计划时间      : 北京时间 + 3 分钟 (ISO)
 发送窗口      : 00:00-02:00 ∪ 12:00-13:30 ∪ 17:30-21:00 (北京)
 阈值          : session.clickCount >= 3 (含 3 放量; <3 放弃)
 并行          : smart 和 globe 独立跑自己的轮
-循环节奏      : 每 1 分钟开一轮新窗口
+循环节奏      : 每 3 分钟开一轮新窗口
 耗尽处理      : 号码包耗尽 → sleep 10 分钟 → 再检查 → 有续, 无再 sleep
 终止          : Willy 手动停 / JWT 过期 / API 连续 3 次 5xx
 ```
@@ -377,7 +192,7 @@ Smart 话术测试: 用 Smart 通道池 (7 + GG家全网通 = 8)
   1) CAMPAIGN_SEND_VERIFICATION_TEST_APPROVAL   (启动测试)
   2) CAMPAIGN_SEND_BATCH_APPROVAL              (放量 / 带 verificationSessionIds)
 
-smart + globe 并行: 每 1 分钟 4 次 TG approve
+smart + globe 并行: 每 3 分钟 4 次 TG approve
 窗口内 7h/天 × 20 轮/h × 4 = 560 次/天
 
 Willy 已绑 TG (telegramId=6694261813), approve 是他的事
@@ -617,7 +432,7 @@ def main_loop():
 - ❌ 不缓存 phone-pack 列表超过 1 轮
 - ❌ **不 POST `/send-direct` 不带 verificationSessionIds** (= 全量直发, 跳过测试, 会扣大钱)
 - ✅ 可并行 smart + globe
-- ✅ 窗口内按 1 分钟节奏开新轮
+- ✅ 窗口内按 3 分钟节奏开新轮
 
 ## 首次实跑流程 (必须 Willy 盯着, 不 auto-loop)
 
@@ -686,7 +501,7 @@ def main_loop():
 3. **测试切分**: `first.phonePackCleanCount>=100 ? [first] : [first,second]` — 单 session 若拿到多 pack, 首包测, 余下 remaining
 4. **dedup 真实**: 号码包 cleanCount=100 实际发出 ~75 条 (去 25%), 成本要乘 0.75
 5. **approval TTL**: 10 分钟, 过则 expired 无法批
-6. **IP 白名单**: SUPER_ADMIN 可直接管理 `/api/ip-whitelist`
+6. **IP 白名单**: OPS_ADMIN 读 `/api/ip-whitelist` 403, 必须 SUPER_ADMIN 加白
 7. **放量先决**: 至少 1 session status=passed, 否则 `/send-direct` 带 verificationSessionIds 抛 `verificationContinueRequiresPassedCombo`
 8. **业务 vs 系统阈值**: 系统 `clickCount>0 → passed`, Willy 业务要 `>=3`, 由 Hermes 侧二次过滤
 
@@ -879,7 +694,7 @@ python3 ~/.hermes/state/bowjwj/analyze.py watch       # 实时监控
 9. **plannedAt 建议设为 "现在+30s" 不是 "现在+3min"**:
    - approval 走完只要几秒, 但 plannedAt 不到就不发 — 相当于凭空等几分钟, 让 session 10 秒窗口白烧
    - **建议**: plannedAt = 现在 + 30 秒 (给 approval 消息 + TG approve 留缓冲)
-   - Willy 原话"每 1 分钟一轮"指**轮与轮之间**节奏, 不是 plannedAt
+   - Willy 原话"每 3 分钟一轮"指**轮与轮之间**节奏, 不是 plannedAt
 
 
 

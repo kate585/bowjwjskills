@@ -105,7 +105,7 @@ GROUP BY agent_line_name ORDER BY dep DESC;
    → 拿 campaignBatchId (BATCH-xxx)
 3. GET /api/operations-report?
      backendInstanceId=c7ee7c4c
-     createdByUserId=ec7fbe8c-3a0e-4823-b1da-0afc88c76f89
+     createdByUserId=cmn2xq7i40000wjl2qapw4lys
      dateFrom=<round+日期>
      dateTo=<round+2天>
      groupBy=campaign
