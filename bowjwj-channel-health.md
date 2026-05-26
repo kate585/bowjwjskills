@@ -5,6 +5,37 @@ description: bowjwj 通道健康监控协调器。Willy 说"看通道"、"通道
 
 # bowjwj-channel-health (协调器)
 
+## 新后台覆盖规则 (2026-05-26)
+
+本节优先于后面的旧规则。
+
+- Base URL: `https://aicrm.bo-pro.cc`
+- 必带 header: `Authorization: Bearer $JWT` 和 `X-AICRM-Tenant: aicrm-default`
+- API 字典：`GET /api/_meta/endpoints?module=channel-scores|adapters|send-logs|resource-health`
+
+### 新数据源优先级
+
+新后台已有通道评分接口：
+
+```text
+GET /api/channel-scores
+GET /api/adapters/instances
+GET /api/send-logs
+GET /api/resource-health/system
+GET /health/smpp
+GET /health/smpp-routes
+GET /health/smpp-dlr
+```
+
+单通道体检顺序：
+
+1. `/api/channel-scores` 拿健康评分和状态。
+2. `/api/adapters/instances` 拿配置、enabled、configInvalidSince、绑定 backend。
+3. `/api/send-logs?adapterInstanceId=<id>` 看近期失败原因。
+4. `/api/resource-health/system` 或 `/health/smpp*` 看系统级 SMPP/DLR 状态。
+
+`/api/intelligence/dimensions` 仍可做市场表现参考，但不再是通道健康首选。
+
 ## 何时触发
 
 **单通道**:

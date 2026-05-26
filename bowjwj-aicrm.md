@@ -5,6 +5,112 @@ description: Willy 自建的 AICRM 短信营销管理平台 (bowjwj.cc) 的 API 
 
 # bowjwj AICRM (短信营销平台) 接入 skill
 
+## 新后台覆盖规则 (2026-05-26)
+
+以下规则优先级高于本文后面的旧 `bowjwj.cc` 历史记录。遇到冲突时按本节执行。
+
+### Base URL / Tenant
+
+```bash
+BASE=https://aicrm.bo-pro.cc
+TENANT=aicrm-default
+JWT=$(cat ~/.hermes/state/bowjwj/.jwt)
+
+curl -sS \
+  -H "Authorization: Bearer $JWT" \
+  -H "X-AICRM-Tenant: $TENANT" \
+  "$BASE/api/me"
+```
+
+- 所有新后台 API 请求必须带 `Authorization: Bearer ...` 和 `X-AICRM-Tenant: aicrm-default`。
+- 不把 JWT 写入仓库、日志、skill、memory。用户临时贴 token 时只作为本轮 header 使用。
+- `/api/me` 已验证当前账号为 `SUPER_ADMIN`，新增权限含 `docs.read`、`dev.try`。
+
+### API 字典是新真相源
+
+新后台内置 API/Skill 字典，先查它，不再靠旧 bundle 反推。
+
+```bash
+GET /api/_meta/endpoints
+GET /api/_meta/endpoints?module=campaigns
+GET /api/_meta/endpoints?search=send-direct
+GET /api/_meta/skills
+GET /api/_meta/skills/:name/markdown
+```
+
+2026-05-26 实测：`/api/_meta/endpoints` 返回 419 个 endpoint，旧的“77 条 API 地图”只作历史参考。
+
+### shortlinkMappingMode 枚举
+
+新后台前端给 3 个值：
+
+- `pack` — 4 位号码包短链，一个号码包/活动共用一条短链。
+- `recipient` — 6 位号码级短链，每个号码独立短链。
+- `content` — 固定文案短链，按原文发送，不替换 `${shortUrl}`。使用该模式时短信中必须已经粘贴平台生成/复制的可复用固定文案短链。
+
+不要再写“只有 pack/recipient 两个值”。
+
+### 新增重点模块
+
+旧 skills 需要知道这些新模块存在：
+
+- `metrics`: `/api/metrics/query`, `/api/metrics/freshness`, `/api/metrics/explain`, export/recompute jobs。
+- `auto-send-plans`: 自动发送计划、lane、resource lifecycle、run-now。
+- `orchestration-*`: workbench、policies、freezes、orchestrated-send-tasks。
+- `phone-pack-access`: 用户包源授权、preview、explain。
+- `phone-pack-labels/tags`: 号码包标签、生命周期、风险状态。
+- `channel-scores` / `template-scores`: 通道和模板评分。
+- `resource-health/system`: 系统资源健康。
+- `tenants`: 多租户管理和 switch。
+
+### 号码包新字段
+
+`GET /api/phone-packs` 现在会返回 `poolView`、`poolStats`，单包字段含：
+
+```text
+sourcePoolType, sourcePoolOwnerUserId, sourcePoolOwner,
+sourcePoolAssignedByUserId, sourcePoolAssignedAt,
+labelLifecycleStatus, labelRiskStatus,
+reuseLocked, assignmentCampaignDbId, assignmentCampaignId,
+assignmentCampaignBatchId, assignmentStatus, assignmentLaunchStatus,
+dataViewLocked, countryCodes
+```
+
+前端选择号码包时使用：
+
+```text
+requiredAccess=USE
+poolMode=own_with_public_fallback
+```
+
+因此挑包不能只看 `source/cleanCount/reuseLocked/assignmentCampaignId`，还要考虑个人包源池、公共兜底池、标签生命周期和风险状态。
+
+### 发信入口现状
+
+旧入口仍存在：
+
+```text
+POST /api/campaign-templates/:id/send-direct
+POST /api/campaign-templates/:id/send-direct/test-send
+POST /api/send-verification-sessions/confirm
+POST /api/send-verification-sessions/:id/continue
+```
+
+新后台同时增加：
+
+```text
+POST /api/campaigns/bulk-launch
+POST /api/campaigns/bulk-send
+POST /api/campaigns/:id/launch
+POST /api/campaigns/:id/send
+POST /api/campaigns/:id/send-batch
+POST /api/campaigns/:id/test-send
+POST /api/auto-send-plans/:id/run-now
+POST /api/orchestrated-send-tasks
+```
+
+任何写/发/计划启动接口都必须先让 Willy 明确确认。只读 GET 可直接查。
+
 ## 何时加载
 
 Willy 提到任一:
@@ -56,7 +162,7 @@ chmod 600 ~/.hermes/state/bowjwj/.jwt
 
 账密兜底 (passkey 站点, 密码走不通, 仅留作备用信息):
 ```bash
-USER=$(op read 'op://Personal/Bowjwj/username')   # willy88818@gmail.com
+USER=$(op read 'op://Personal/Bowjwj/username')   # wtt689@gmail.com
 PASS=$(op read 'op://Personal/Bowjwj/password')   # Aa123123
 ```
 
@@ -87,25 +193,29 @@ curl -sS -H "Authorization: Bearer $JWT" "$BASE/api/..."
 
 ## 用户与权限
 
-**你的角色**: `OPS_ADMIN` (运营管理员)
+**你的角色**: `SUPER_ADMIN` (超级管理员)
 
-**你能做的 14 项权限**:
+**你能做的 25 项权限**:
 ```
+user.read/create/update/disable/password.reset
+role.permission.read/manage
+user.permission.manage
 campaign.read/create/update/send
 adapter.manage  domain.manage  shortlink.manage
-phone_pack.read/manage
+phone_pack.read/manage  phone_blacklist.read/manage
 text.read/manage
 agent_account.manage
 audit.read  attribution.read
+system.config
 ```
 
-**你不能做 (需 SUPER_ADMIN)**:
-- 用户/角色/权限 (`/api/users`, `/api/roles`, `/api/permissions`)
-- 号码黑/白名单 (`/api/phone-blacklists`, `/api/phone-whitelists`)
-- **发送记录/去重真相** (`/api/send-logs?campaignId=<CID>`)  ← ★ 关键, 别漏
-- **操作审计** (`/api/audit-logs?resourceId=<CID>`)  approval 执行时间线
-- 全局配置 (`/api/global-config`)
-- IP 白名单管理 (`/api/ip-whitelist`, 但 `/api/ip-whitelist/my-ip` 自读允许)
+**你现在已经能做 (SUPER_ADMIN 全权限)**:
+- ✅ 用户/角色/权限 (`/api/users`, `/api/roles`, `/api/permissions`)
+- ✅ 号码黑/白名单 (`/api/phone-blacklists`, `/api/phone-whitelists`)
+- ✅ **发送记录/去重真相** (`/api/send-logs?campaignId=<CID>`)
+- ✅ **操作审计** (`/api/audit-logs?resourceId=<CID>`)
+- ✅ 全局配置 (`/api/global-config`)
+- ✅ IP 白名单管理 (`/api/ip-whitelist` + `/api/ip-whitelist/my-ip`)
 
 ## API 地图 (77 条, 按业务域分组)
 
@@ -341,10 +451,10 @@ grep -n -B2 -A30 "^const \w+QuerySchema\|querySchema\s*=\s*z\.object" \
 ```
 
 **step 3: 实跑验证关键过滤是否 server-side 生效**  
-比如 `createdByUserId=` 在 operations-report 路由生效 (源码 `ensureOperationsReportBackendScope` 后直接进 where), 但在 `intelligence/dimensions` 里 **不生效** (role=PROMOTER 才 auto where.ownerId, OPS_ADMIN 看全局聚合).
+比如 `createdByUserId=` 在 operations-report 路由生效 (源码 `ensureOperationsReportBackendScope` 后直接进 where), 但在 `intelligence/dimensions` 里 **不生效** (role=PROMOTER 才 auto where.ownerId, SUPER_ADMIN 看全局聚合).
 
 **实战教训 2026-04-24** (建 conversion-funnel skill 时):
-- 差点用 intelligence/dimensions 做"我的 ROI", 源码一看 OPS_ADMIN 拿的是全系统聚合, 不是自己的
+- 差点用 intelligence/dimensions 做"我的 ROI", 源码一看 SUPER_ADMIN 拿的是全系统聚合, 不是自己的
 - 改用 operations-report + createdByUserId, 源码 + 实跑双校验 pass
 - 结果 conversion-funnel skill 两刀分工 (operations-report=我的 / intelligence=市场基线)
 
@@ -937,6 +1047,51 @@ POST /api/send-verification-sessions/{sessionId}/continue
 - TG userbot 自动批 (风险大)
 - 限制到只在某些 power hour 发
 
+## 🔴 铁律：发送必须搭配票卷 (2026-04-29)
+
+**每一条模板必须配置 RAFFLE 2659055 + 7天有效期，否则发送全部失败。PATCH 不生效，必须在 POST 创建时设置。**
+
+```
+创建模板必带:
+  ticketRewards: [{"ticketType": "RAFFLE", "ticketId": "2659055", "ticketQuantity": 1}]
+  defaultValidityHours: 168
+  validityPeriod: "7D"
+
+票卷名: 幸运红包 SMS NN33VIP / ID:2659055
+```
+
+⚠️ **ticketRewardsJson (JSON string) 在 POST 创建时会被后端静默丢弃为 []！必须用 ticketRewards (array)。**
+但 GET 返回的响应里字段名是 `ticketRewardsJson` (string) 和 `ticketRewards` (array) 两者都有。
+
+## 🔴 正确发送流程 — 模版→活动→启动→发送 (2026-04-29)
+
+**`/send-direct` 后端有 DB bug (UserTemplateDirectSendPreference 表不存在)，不可用。正确流程走前端原生三步:**
+
+```
+1. POST /api/campaign-templates
+   → 创建模板 (ticketRewards array, RAFFLE 2659055, validityPeriod "7D")
+
+2. POST /api/campaigns
+   body: {templateId, activityName, smsText, ticketRewards, backendInstanceId,
+          campaignType:"activity", shortlinkMappingMode:"recipient", shortlinkMode:"domain",
+          customShortlinkDomainConfigIds:[前50个活跃域名...],
+          scheduleEnabled:true, smsInstanceId, phonePackIds:[10-15包]}
+   → resp: {id, campaignBatchId, batch:{sharedAgentMode:"SINGLE_AGENT_LINE", allocatedLineCount:1, launchState:"draft"}}
+   ★ 多包共享1代理线, 无verification session ★
+
+3. POST /api/campaigns/{id}/launch
+   → 启动活动, 分配agentLineId
+
+4. POST /api/campaigns/{id}/send  body:{smsInstanceId}
+   → TG审批 → 全量发出 (所有包一次性发送)
+```
+
+**关键差异 vs test-send:**
+- 无 verificationSessions（不需要先测1包再confirm）
+- sharedAgentMode: SINGLE_AGENT_LINE（多包=1代理线）
+- 创建后是 draft → launch → send 三步
+- 每3秒可发1个包的【指定通道发信】(可传 phonePackIds 筛选单包)
+
 ## 硬约束: Sensitive Approval
 
 **所有"真发"类 API 都走审批** (`createSensitiveApproval` 硬性检查):
@@ -947,7 +1102,7 @@ POST /api/send-verification-sessions/{sessionId}/continue
 - 执行锁 = 5 分钟 (`EXECUTION_LEASE_MS`)
 - **没有"自动批准" API**, 只有 TG 回调 + callback token 校验
 
-Willy 账号 `cmn2xq7i40000wjl2qapw4lys` 的 TG 已绑: telegramId=6694261813。
+Willy 账号 `ec7fbe8c-3a0e-4823-b1da-0afc88c76f89` 的 TG 已绑: telegramId=6694261813。
 
 ## 🔴 Session 切分规则 — 实测铁律 (2026-04-24)
 
@@ -1239,9 +1394,12 @@ dc70d6e8  十五 菲律宾 yo家短信 Globe&Dito:LUCKYplay S (副本副本)
 3ab371e1  菲律宾GG家(0.004)全网通
 ```
 
-### 号码包过滤 (2026-04-24 确认)
+### 号码包过滤 (2026-04-28 更新)
 
 - ❌ **source 含 "yo家黑名单"** → 跳过
+- ❌ **source 含 "测试"** → 跳过 (机器人不发带"测试"的数据包)
+- ❌ **source 含 "黑名单"** (3 个字) → 跳过 (机器人不发)
+- ❌ **titlePrefix / 模板名 避免含 "test"** → 可能触发反垃圾规则
 - ✅ smart / globe 分流规则 **尚未最终拍板** (Q3 未解)
 
 ### 固定配置
@@ -1393,7 +1551,7 @@ const selected = first.phonePackCleanCount >= 100
 `/continue` 和 `/confirm` 都 `registerSensitiveApprovalAction({ riskLevel: "S1" })`:
 - 返回 202 Accepted + approval request
 - 需要 SUPER_ADMIN 在 SensitiveApprovalCenter 或 TG Bot 批
-- Hermes OPS_ADMIN 发出请求后, 真正执行要等人工批
+- Hermes SUPER_ADMIN 发出请求后, 真正执行要等人工批
 - **所以"自动化"必须先搞清楚 Willy 的审批流配置**, 否则发出的都卡审批队列
 
 ## 🧱 本地基础设施 (2026-04-24 搭, 跨 session 持久化)
@@ -1765,7 +1923,7 @@ for page in 1..N:
     mine.extend(i for i in items if i.createdByUserId == ME)
 ```
 
-**自己的数据可能散在分页深处**, 只拉第 1 页看不到 ≠ 没有数据. willy88818 在全站 1155 条 scheduled 里 0 条是正常的 (因为 Willy 没激活的 scheduled 批次).
+**自己的数据可能散在分页深处**, 只拉第 1 页看不到 ≠ 没有数据. wtt689 在全站 1155 条 scheduled 里 0 条是正常的 (因为 Willy 没激活的 scheduled 批次).
 
 ## 🔴 反查一个 batch 实际发的短链 (2026-04-24)
 

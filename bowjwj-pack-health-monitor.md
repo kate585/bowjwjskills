@@ -5,6 +5,70 @@ description: bowjwj 号码包库存健康监控协调器。Willy 说"看库存"�
 
 # bowjwj-pack-health-monitor (协调器)
 
+## 新后台覆盖规则 (2026-05-26)
+
+本节优先于后面的旧规则。
+
+- Base URL: `https://aicrm.bo-pro.cc`
+- 必带 header: `Authorization: Bearer $JWT` 和 `X-AICRM-Tenant: aicrm-default`
+- API 字典：`GET /api/_meta/endpoints?module=phone-packs|phone-pack-access|phone-pack-labels|phone-pack-tags|phone-pack-sendability`
+
+### 号码包库存主接口
+
+```text
+GET /api/phone-packs
+GET /api/phone-packs/categories
+GET /api/phone-packs/categories/:key/packs
+GET /api/phone-packs/:id
+GET /api/phone-pack-access/users/:userId/summary
+POST /api/phone-pack-access/explain
+GET /api/phone-pack-labels
+GET /api/phone-pack-sendability
+```
+
+### 新字段必须纳入盘点
+
+`GET /api/phone-packs` 现在返回 `poolView` 和 `poolStats`：
+
+```text
+poolStats.total / usable / locked / cooling / deprecated / highRisk
+```
+
+单包字段重点：
+
+```text
+sourcePoolType
+sourcePoolOwnerUserId
+sourcePoolOwner
+labelLifecycleStatus
+labelRiskStatus
+reuseLocked
+assignmentCampaignId
+assignmentCampaignBatchId
+assignmentStatus
+assignmentLaunchStatus
+dataViewLocked
+countryCodes
+```
+
+库存健康输出必须区分：
+
+- 个人包源池 vs 公共包源池。
+- 可用包、锁定包、冷却包、废弃包、高风险包。
+- `dataViewLocked=true` 的包不能假设可看明细。
+- `labelLifecycleStatus` 非 available 或 `labelRiskStatus` 非 normal 时，默认不纳入可发送库存。
+
+### 发信前挑包规则
+
+用于 campaign 创建/发信前，按前端一致口径读取：
+
+```text
+requiredAccess=USE
+poolMode=own_with_public_fallback
+```
+
+公共兜底池只在个人池不足时使用；输出必须明确“用了公共兜底池多少包”。
+
 ## 何时触发
 
 **总览**:

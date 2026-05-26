@@ -5,6 +5,55 @@ description: bowjwj 发送效果查询协调器 (重构后)。Willy 说"看 #68 
 
 # bowjwj-send-analysis (协调器)
 
+## 新后台覆盖规则 (2026-05-26)
+
+本节优先于后面的旧规则。
+
+- Base URL: `https://aicrm.bo-pro.cc`
+- 必带 header: `Authorization: Bearer $JWT` 和 `X-AICRM-Tenant: aicrm-default`
+- API 字典：`GET /api/_meta/endpoints?module=replay-dashboard|operations-report|metrics|send-logs`
+
+### 数据口径优先级
+
+业务复盘仍以 replay-dashboard 为主：
+
+```text
+GET /api/replay-dashboard/batches
+GET /api/replay-dashboard/batches/:batchId
+GET /api/replay-dashboard/batches/:batchId/packs/:packId
+GET /api/replay-dashboard/batches/:batchId/dimensions
+```
+
+新后台新增 metrics v2，适合做时段汇总、驾驶舱、指标解释：
+
+```text
+POST /api/metrics/query
+GET  /api/metrics/freshness
+GET  /api/metrics/explain
+POST /api/metrics/export-jobs
+POST /api/metrics/recompute-jobs
+```
+
+常用 metric keys：
+
+```text
+send_target_count
+submit_success_count
+submit_failed_count
+dlr_delivered_count
+click_pv
+click_uv
+registration_count
+ftd_count
+cost
+```
+
+汇报规则：
+
+- 单 batch / 单 seq：优先 replay-dashboard。
+- 今日/近 N 天总览：优先 metrics v2；必要时用 operations-report 校验营收/FTD。
+- 发送失败和去重：send-logs 是技术口径，只作辅助。
+
 ## 何时触发
 
 **单次查询** (按 seq / campaign / session):

@@ -5,6 +5,66 @@ description: bowjwj 按 seq 批量/单个/条件发信协调器。**任何时候
 
 # bowjwj-batch-send (协调器)
 
+## 新后台覆盖规则 (2026-05-26)
+
+本节优先于后面的旧 `bowjwj.cc` 规则。
+
+- Base URL: `https://aicrm.bo-pro.cc`
+- 必带 header: `Authorization: Bearer $JWT` 和 `X-AICRM-Tenant: aicrm-default`
+- 发信前先读 `bowjwj-aicrm` 的“新后台覆盖规则”。
+- 新后台有 API 字典：`GET /api/_meta/endpoints?search=send-direct`、`GET /api/_meta/endpoints?module=campaigns`。如果接口行为不确定，先查字典，不凭旧记忆拼 body。
+
+### 发信入口分层
+
+旧的模板直发入口仍存在：
+
+```text
+POST /api/campaign-templates/:id/send-direct
+POST /api/campaign-templates/:id/send-direct/test-send
+```
+
+但新后台还提供 campaign 和编排入口：
+
+```text
+POST /api/campaigns/bulk-launch
+POST /api/campaigns/bulk-send
+POST /api/campaigns/:id/launch
+POST /api/campaigns/:id/send
+POST /api/campaigns/:id/send-batch
+POST /api/campaigns/:id/test-send
+GET/POST /api/auto-send-plans...
+GET/POST /api/orchestrated-send-tasks...
+```
+
+默认仍按安全模式 `test-send`，不裸直发；涉及 `bulk-send`、`run-now`、`orchestrated-send-tasks`、`auto-send-plans/*/publish|run-now` 必须单独确认。
+
+### 短链模式
+
+`shortlinkMappingMode` 现在是三值：
+
+- `pack`
+- `recipient`
+- `content`
+
+`content` 是固定文案短链，短信原文必须已包含可用短链，不替换 `${shortUrl}`。批量发信脚本不能把 `content` 当 `pack` 或 `recipient` 自动补短链域名。
+
+### 号码包选择
+
+新后台号码包选择要考虑包源权限：
+
+```text
+GET /api/phone-packs/categories?backendInstanceId=<BID>&requiredAccess=USE&poolMode=own_with_public_fallback
+GET /api/phone-packs/categories/:key/packs?backendInstanceId=<BID>&requiredAccess=USE&poolMode=own_with_public_fallback
+GET /api/phone-packs/categories/:key/selection?backendInstanceId=<BID>&requiredAccess=USE&poolMode=own_with_public_fallback
+```
+
+挑包过滤在旧规则基础上追加：
+
+- `sourcePoolType`：优先个人可用池，公共池只作兜底。
+- `labelLifecycleStatus`：只用可用态，跳过 cooling/deprecated 等异常态。
+- `labelRiskStatus`：跳过 high risk。
+- `dataViewLocked=true` 时不假设能看明细。
+
 ## 何时触发
 
 - `发 #N` / `跑 #N`              → 单组合
